@@ -3,7 +3,7 @@ export const AboutPage = () => {
     <div className="space-y-5">
       <h1 className="text-center text-4xl font-semibold tracking-tight mb-5">Nuestra empresa</h1>
 
-      <img src="" alt="Imagen de fondo" className="h-[500px] w-full object-cover"></img>
+      <img src="https://blogdesarrolladores.lahaus.com/hubfs/lugares-turisticos-santa-marta-colombia.jpg" alt="Imagen de fondo" className="h-[500px] w-full object-cover"></img>
 
       <div className="flex flex-col gap-4 tracking-tighter leading-7 text-sm font-medium text-slate-800">
           <p>
