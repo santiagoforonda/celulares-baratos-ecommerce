@@ -35,3 +35,29 @@ export const getFilteredProducts = async({page =1,brands=[]}:{page:number;brands
 
     return {data,count};
 }
+
+export const getRecentProducts = async()=>{
+
+    const {data:products,error} = await supabase.from("products").select("*, variants(*)").order("created_at", {ascending:false}).limit(4);
+
+    if(error){
+        console.info(error.message);
+        throw new Error(error.message);
+    }
+    return products;
+}
+
+
+export const getRandomsProducts = async()=>{
+
+    const {data:products,error} = await supabase.from("products").select("*, variants(*)").limit(20);
+
+    if(error){
+        console.info(error.message);
+        throw new Error(error.message);
+    }
+
+    const randomProducts = products.sort(()=> 0.5 - Math.random()).slice(0,4);
+
+    return randomProducts;
+}

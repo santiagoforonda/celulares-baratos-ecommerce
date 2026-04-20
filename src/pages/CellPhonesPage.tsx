@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ContainerFilter } from "../components/products/ContainerFilter"
 import { useFilteredProducts } from "../hooks/products/useFilteredProducts";
+import { Pagination } from "../components/shared/Pagination";
 
 
 export const CellPhonesPage = () => {
@@ -18,7 +19,7 @@ export const CellPhonesPage = () => {
     
     
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-          <ContainerFilter></ContainerFilter>
+          <ContainerFilter setSelectedBrands={setSelectedBrands} selectedBrands={selectedBrands}></ContainerFilter>
           {isLoading? (
             <div className="col-span-2 flex items-center justify-center h-[500px]">
               <p className="text-2xl">Cargando...</p>
@@ -29,6 +30,8 @@ export const CellPhonesPage = () => {
             <div className="grid grid-cols-2 gap-3 gap-y-10 xl:grid-cols-4">
                 {}
             </div>
+
+            <Pagination totalItems={totalProducts} page={page} setPage={setPage}></Pagination>
           </div>
           )}
           

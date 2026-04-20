@@ -1,20 +1,31 @@
 import { Brands } from "../components/home/Brands"
 import { FeatureGrid } from "../components/home/FeatureGrid"
 import { ProductGrid } from "../components/home/ProductGrid"
-import { useProducts } from "../hooks/products/useProducts"
+import { ProductGridSkeleton } from "../components/skeletons/ProductGridSkeleton"
+import { useHomeProducts } from "../hooks/products/useHomeProducts"
+
 
 export const HomePage = () => {
-
-
   
-
+  const {recentProducts,popularProducts,isLoading,isError} = useHomeProducts();
 
   
   return (
     <section>
       <FeatureGrid></FeatureGrid>
-      <ProductGrid title="Nuevos productos" products={[{id:1,title:"producto 1"}]}></ProductGrid>
-      <ProductGrid title="Productos destacados" products={[{id:1,title:"producto 1"}]}></ProductGrid>
+    {
+      isLoading? (<ProductGridSkeleton numberOfProducts={4}></ProductGridSkeleton>):(
+        <ProductGrid title="Nuevos productos" products={}></ProductGrid>
+      )
+    }
+
+    {
+
+      isLoading ? (<ProductGridSkeleton numberOfProducts={4}></ProductGridSkeleton>):(
+        <ProductGrid title="Productos destacados" products={}></ProductGrid>
+      )
+    }
+      
       <Brands></Brands>
     </section>
   )
