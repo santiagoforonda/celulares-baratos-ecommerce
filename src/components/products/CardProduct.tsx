@@ -3,6 +3,7 @@ import { FiPlus } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import type { Variant } from "../../interfaces/product.interface";
 import { formatPrice } from "../../helpers";
+import { Tag } from "../shared/Tag";
 
 interface Props{
     img:string;
@@ -25,7 +26,7 @@ export const CardProduct = ({colors,img,name,price,slug,variants}:Props) => {
         varian => varian.color === activeColor.color
     )
 
-    const stock = selectedVarian.stock ||0;
+    const stock = selectedVarian?.stock ||0;
 
 
   return (
@@ -57,7 +58,7 @@ export const CardProduct = ({colors,img,name,price,slug,variants}:Props) => {
 
         <div className="absolute top-2 left-2">
                 {
-                    stock ===0 && <span>Agotado</span>
+                    stock ===0 && <Tag contentTag="agotado"></Tag>
                 }
         </div>
     </div>
