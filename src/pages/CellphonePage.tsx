@@ -2,7 +2,7 @@ import { Separator } from "../components/shared/Separator"
 import { formatPrice } from "../helpers"
 import { LuMinus, LuPlus } from "react-icons/lu";
 import { CiDeliveryTruck } from "react-icons/ci";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { BsChatLeftText } from "react-icons/bs";
 import { ProductDescription } from "../components/one-product/ProductDescription";
 import { GridImages } from "../components/one-product/GridImages";
@@ -11,6 +11,9 @@ import { useEffect, useMemo, useState } from "react";
 import type { Variant } from "../interfaces/product.interface";
 import { Tag } from "../components/shared/Tag";
 import { Loader } from "../components/shared/Loader";
+import { useCounterStore } from "../store/counter.store";
+import { useCartStore } from "../store/cart.store";
+import toast from "react-hot-toast";
 
 
 interface Acc{
@@ -25,7 +28,9 @@ export const CellphonePage = () => {
 
     const {slug} = useParams<{slug:string}>();
 
-    const {product,isError,isLoading} = useProduct(slug || "");
+    const [currentSlug,setCurrentSlug] = useState(slug);
+
+    const {product,isError,isLoading} = useProduct(currentSlug || "");
 
 
     const [selectedColor,setSelectedColor] = useState<string | null>(null);
@@ -33,6 +38,13 @@ export const CellphonePage = () => {
     const [selectedStorage,setSelectedStorage] = useState<string | null>(null);
 
     
+    const count = useCounterStore(state => state.count);
+    const increment = useCounterStore(state => state.increment);
+    const decrement = useCounterStore(state => state.decrement);
+
+    const addItem = useCartStore(state => state.addItem);
+
+    const navigate = useNavigate();
 
     //Agrupamos las variantes por color
     const color = useMemo(()=>{
@@ -83,6 +95,52 @@ export const CellphonePage = () => {
 
     //Obtener el stock
     const isOutStock = selectedVariant?.stock ===0;
+
+    //Funcion para añadir al carrito
+    const addToCart =()=>{
+        if(selectedVariant){
+            addItem({
+                variantId: selectedVariant.id,
+                productId:product?.id || "",
+                name: product?.name || "",
+                iamge: product?.images[0] || "",
+                color: selectedVariant.color_name,
+                storage: selectedVariant.storage,
+                price: selectedVariant.price,
+                quantity: count,
+            });
+            toast.success("Producto añadido al carrito",{
+                position:"bottom-right"
+            })
+        }
+    }
+
+    //Funcion para comprar ahora
+    const buyNow =()=>{
+        if(selectedVariant){
+            addItem({
+                variantId: selectedVariant.id,
+                productId:product?.id || "",
+                name: product?.name || "",
+                iamge: product?.images[0] || "",
+                color: selectedVariant.color_name,
+                storage: selectedVariant.storage,
+                price: selectedVariant.price,
+                quantity: count,
+            });
+            navigate("/checkout");
+        }
+    }
+
+    useEffect(()=>{
+        setCurrentSlug(slug)
+
+        //REINICIAR CARACTERISTICAS
+        setSelectedColor(null);
+        setSelectedStorage(null);
+        setSelectedVariant(null);
+    },[slug]);
+
 
     if(isLoading){
         return <Loader>
@@ -178,15 +236,15 @@ export const CellphonePage = () => {
                                
                             <>
                                     <div className="space-y-3">
-                                        <p className="text-sm font-medium">Cantidad: {product.variants.length}</p>
+                                        <p className="text-sm font-medium">Cantidad: {}</p>
 
                                         <div className="flex gap-8 px-5 py-3 border border-slate-200 w-fit rounded-full">
-                                            <button>
+                                            <button onClick={decrement} disabled={count===1}>
                                                 <LuMinus size={15}></LuMinus>
                                             </button>
 
-                                            <span className="text-slate-500 text-sm">1</span>
-                                            <button>
+                                            <span className="text-slate-500 text-sm">{count}</span>
+                                            <button onClick={increment}>
                                                 <LuPlus size={15}></LuPlus>
                                             </button>
                                         </div>
@@ -194,8 +252,8 @@ export const CellphonePage = () => {
 
                                     <div className="flex flex-col gap-3">
                                         <button className="bg-[#f3f3f3] uppercase font-semibold tracking-widest text-xs py-4 rounded-full transition-all
-                                        duration-300 hover:bg-[#e2e2e2]">Agregar al carro</button>
-                                        <button className="bg-black text-white uppercase font-semibold tracking-widest text-xs py-4 rounded-full">Comprar ahora</button>
+                                        duration-300 hover:bg-[#e2e2e2]" onClick={addToCart}>Agregar al carro</button>
+                                        <button className="bg-black text-white uppercase font-semibold tracking-widest text-xs py-4 rounded-full" onClick={buyNow}>Comprar ahora</button>
                                     </div>
                             </>
                         )}

@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import type { Variant } from "../../interfaces/product.interface";
 import { formatPrice } from "../../helpers";
 import { Tag } from "../shared/Tag";
+import { useCartStore } from "../../store/cart.store";
+import toast from "react-hot-toast";
 
 interface Props{
     img:string;
@@ -17,9 +19,33 @@ interface Props{
 
 export const CardProduct = ({colors,img,name,price,slug,variants}:Props) => {
 
-
-
     const[activeColor,setActiveColor] =useState<{name:string;color:string}>(colors[0]);
+
+    const addItem = useCartStore(state=> state.addItem);
+
+    const handleAddClick =(e:React.MouseEvent<HTMLButtonElement>)=>{
+        e.preventDefault();
+
+        if(selectedVarian && selectedVarian.stock>0){
+            addItem({
+                variantId:selectedVarian.id,
+                productId: slug,
+                name,
+                iamge:img,
+                color:activeColor.name,
+                storage: selectedVarian.storage,
+                price:selectedVarian.price,
+                quantity:1
+            });
+            toast.success("Producto agregado",{
+                position:"bottom-right"
+            })
+        }else{
+            toast.error("Producto agotado",{
+                position:"bottom-right"
+            });
+        }
+    }
 
     //Identificar la variante seleccionada segun el color activo
     const selectedVarian = variants.find(
@@ -36,7 +62,7 @@ export const CardProduct = ({colors,img,name,price,slug,variants}:Props) => {
                 <img src={img} alt={name} className="object-contain h-full w-full"></img>
             </figure>
 
-            <button className="bg-white border border-slate-200 absolute w-full bottom-0 py-3 rounded-3xl flex items-center justify-center gap-1 text-sm font-medium hover:bg-stone-100 translate-y-[100%] transition-all duration-300 group-hover:translate-y-0">
+            <button onClick={handleAddClick} className="cursor-pointer bg-white border border-slate-200 absolute w-full bottom-0 py-3 rounded-3xl flex items-center justify-center gap-1 text-sm font-medium hover:bg-stone-100 translate-y-[100%] transition-all duration-300 group-hover:translate-y-0">
                 <FiPlus></FiPlus> Añadir
             </button>
         </Link>
@@ -48,7 +74,7 @@ export const CardProduct = ({colors,img,name,price,slug,variants}:Props) => {
             <div className="flex gap-3">
                 {
                     colors.map(color=>(
-                        <span key={color.color} className={`grid place-items-center w-5 h-5 rounded rounded-full cursor-pointer`}>
+                        <span key={color.color} className={`${activeColor.color === color.color ? 'border border-black' :''} grid place-items-center w-5 h-5 rounded rounded-full cursor-pointer`} onClick={() => setActiveColor(color)}>
                             <span className="w-[14px] h-[14px] rounded-full" style={{backgroundColor:color.color}}/>
                         </span>
                     ))
