@@ -1,12 +1,15 @@
 
 
 export const NewsLetter = () => {
+  
+  
+  
   return (
     <section className="relative bg-gray-500 text-white py-20">
       <div className="absolute inset-0 bg-cover bg-center opacity-70 h-full" style={{backgroundImage: 'url(/img/background-newsletter.webp)'}}/>
 
       
-      <div className="container z-10 relative p-5 md:p-0">
+      <div className="container mx-auto z-10 relative p-5 md:p-0">
           <div className="w-full text-black bg-white p-12 space-y-5 md:w-[50%] lg:w-[40%]">
               <p className="text-xs uppercase font-semibold">
                 Suscribete a nuestro boletín y recibe promociones exclusivas

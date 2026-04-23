@@ -1,9 +1,13 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import { RootLayout } from "../layout/RootLayout";
 import { HomePage } from "../pages/HomePage";
 import { CellPhonesPage } from "../pages/CellPhonesPage";
 import { AboutPage } from "../pages/AboutPage";
 import { CellphonePage } from "../pages/CellphonePage";
+import { LoginPage } from "../pages/LoginPage";
+import { RegisterPage } from "../pages/RegisterPage";
+import { ClientLayout } from "../layout/ClientLayout";
+import { OrdersUserPage } from "../pages/OrdersUserPage";
 
 export const router = createBrowserRouter([
     {
@@ -26,7 +30,29 @@ export const router = createBrowserRouter([
             {
                 path:"nosotros",
                 element:<AboutPage></AboutPage>
+            },
+            {
+                path:"login",
+                element:<LoginPage></LoginPage>
+            },
+            {
+                path:"registro",
+                element:<RegisterPage></RegisterPage>
+            },
+            {
+                path:"account",
+                element:<ClientLayout></ClientLayout>,
+                children:[
+                    {
+                        path:"",
+                        element:<Navigate to="/account/pedidos"></Navigate>
+                    },
+                    {
+                        path:"pedidos",
+                        element:<OrdersUserPage></OrdersUserPage>
+                    }
+                ]
             }
         ]
-    }
+    },
 ])

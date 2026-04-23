@@ -1,10 +1,12 @@
 import { Link, NavLink } from "react-router-dom";
 import { navBarLinks } from "../../constans/links";
-import { HiOutlineSearch, HiOutlineShoppingBag } from "react-icons/hi";
+import { HiOutlineSearch, HiOutlineShoppingBag, HiOutlineUser } from "react-icons/hi";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { Logo } from "./Logo";
 import { useGlobalStore } from "../../store/global.store";
 import { useCartStore } from "../../store/cart.store";
+import { useUser } from "../../hooks/auth/useUser";
+import { LuLoader } from "react-icons/lu";
 
 export const NavBar =() =>{
 
@@ -12,6 +14,10 @@ export const NavBar =() =>{
     const totalItemsInCart = useCartStore(state => state.totalItemsInCart);
 
     const setActiveNavMobile= useGlobalStore(state => state.setActiveNavMobile);
+
+    const {session,isLoading} = useUser();
+
+    const userId = session?.user.id;
 
     return(
         <header className="bg-white text-black py-4 flex items-center justify-between px-5 border-b border-slate-200 lg:px-12">
@@ -34,9 +40,19 @@ export const NavBar =() =>{
                     <HiOutlineSearch size={25}></HiOutlineSearch>
                 </button>
 
-                <div className="relative">
-                    <Link to="/account" className="border-2 border-slate-700 w-9 h-9 rounded-full grid place-items-center text-lg font-bold">S</Link>
-                </div>
+                {
+                    isLoading ?(
+                        <LuLoader className="animate-spin" size={60}></LuLoader>
+                    ): session ? (
+                        <div className="relative">
+                            <Link to="/account" className="border-2 border-slate-700 w-9 h-9 rounded-full grid place-items-center text-lg font-bold">S</Link>
+                        </div>
+                    ):(
+                        <Link to="/login">
+                            <HiOutlineUser size={25}></HiOutlineUser>
+                        </Link>
+                    )
+                }
 
                 <button className="relative cursor-pointer" onClick={()=>openSheet("cart")}>
                     <span className="absolute -bottom-2 right-2 w-5 h-5 grid place-items-center bg-black text-white text-xs rounded-full">{totalItemsInCart}</span>

@@ -21,7 +21,7 @@ export const RootLayout = () => {
         {
           pathname === "/" && <Banner></Banner>
         }
-        <section className="container my-8 flex-1">
+        <section className="container mx-auto my-8 flex-1">
           <Outlet></Outlet>
         </section>
 
