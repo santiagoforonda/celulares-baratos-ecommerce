@@ -8,6 +8,9 @@ import { LoginPage } from "../pages/LoginPage";
 import { RegisterPage } from "../pages/RegisterPage";
 import { ClientLayout } from "../layout/ClientLayout";
 import { OrdersUserPage } from "../pages/OrdersUserPage";
+import { CheckoutPage } from "../pages/CheckoutPage";
+import { ThnakyouPage } from "../pages/ThnakyouPage";
+import { OrderUserPage } from "../pages/OrderUserPage";
 
 export const router = createBrowserRouter([
     {
@@ -50,9 +53,22 @@ export const router = createBrowserRouter([
                     {
                         path:"pedidos",
                         element:<OrdersUserPage></OrdersUserPage>
+                    },
+                    {
+                        path:"pedido/:id",
+                        element:<OrderUserPage></OrderUserPage>
                     }
                 ]
-            }
+            },
+            
         ]
     },
+    {
+                path:"/checkout",
+                element: <CheckoutPage></CheckoutPage>
+    },
+    {
+        path:"/checkout/:id/thank-you",
+        element:<ThnakyouPage></ThnakyouPage>
+    }
 ])
