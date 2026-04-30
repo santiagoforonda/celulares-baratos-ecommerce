@@ -1,14 +1,35 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useCartStore } from "../store/cart.store"
 import { FormCheckout } from "../components/checkout/FormCheckout";
 import { ItemsCheckout } from "../components/checkout/ItemsCheckout";
+import { useUser } from "../hooks/auth/useUser";
+import { Loader } from "../components/shared/Loader";
+import { useEffect } from "react";
+import { supabase } from "../supabase/client";
 
 export const CheckoutPage = () => {
 
     const totalItems = useCartStore(state => state.totalItemsInCart);
 
+    const {isLoading} = useUser();
 
-  return (
+     const navigate = useNavigate();
+
+    useEffect(()=>{
+        supabase.auth.onAuthStateChange(async (event,session)=>{
+                    if(event === "SIGNED_OUT" || !session){
+                        navigate("/login");
+                    }
+                })
+    },[navigate]);
+
+    if(isLoading){
+        return <Loader></Loader>
+    }
+
+   
+
+    return (
     <div style={{minHeight:"calc(100vh-100px)"}}>
         <header className="h-[100px] bg-white text-black flex items-center justify-center flex-col border-b border-slate-200">
             <Link to="/" className="text-4xl font-bold self-center tracking-tighter transition-all md:text-5xl md:self-start">

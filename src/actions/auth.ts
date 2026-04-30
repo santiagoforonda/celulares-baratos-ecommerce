@@ -106,3 +106,15 @@ export const getSession = async() =>{
 
     return data;
 }
+
+export const getUserDate =async(userId:string)=>{
+    const {data,error} = await supabase.from("customers").select("*").eq("user_id",userId).single();
+
+    if(error){
+        console.info(error);
+        throw new Error("Error al obtener la sesion");
+    }
+
+    return data;
+    
+}

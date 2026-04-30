@@ -7,6 +7,7 @@ import { useGlobalStore } from "../../store/global.store";
 import { useCartStore } from "../../store/cart.store";
 import { useUser } from "../../hooks/auth/useUser";
 import { LuLoader } from "react-icons/lu";
+import { useCustomer } from "../../hooks/auth/useCustomer";
 
 export const NavBar =() =>{
 
@@ -18,6 +19,7 @@ export const NavBar =() =>{
     const {session,isLoading} = useUser();
 
     const userId = session?.user.id;
+    const {data:customer} = useCustomer(userId!);
 
     return(
         <header className="bg-white text-black py-4 flex items-center justify-between px-5 border-b border-slate-200 lg:px-12">
@@ -45,7 +47,7 @@ export const NavBar =() =>{
                         <LuLoader className="animate-spin" size={60}></LuLoader>
                     ): session ? (
                         <div className="relative">
-                            <Link to="/account" className="border-2 border-slate-700 w-9 h-9 rounded-full grid place-items-center text-lg font-bold">S</Link>
+                            <Link to="/account" className="border-2 border-slate-700 w-9 h-9 rounded-full grid place-items-center text-lg font-bold">{customer && customer.fullName[0]}</Link>
                         </div>
                     ):(
                         <Link to="/login">

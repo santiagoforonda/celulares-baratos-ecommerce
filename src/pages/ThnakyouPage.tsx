@@ -1,16 +1,30 @@
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { useOrder } from "../hooks/orders/useOrder";
 import { Loader } from "../components/shared/Loader";
 import { CiCircleCheck } from "react-icons/ci";
 import { formatPrice } from "../helpers";
+import { useEffect } from "react";
+import { supabase } from "../supabase/client";
+import { useUser } from "../hooks/auth/useUser";
 
 
 export const ThnakyouPage = () => {
 
     const {id} = useParams<{id:string}>();
     const {data,isError,isLoading} = useOrder(Number(id));
+    const {isLoading:isLoadingSession} = useUser();
+    const navigate = useNavigate();
 
-    if(isLoading || !data){
+
+    useEffect(()=>{
+        supabase.auth.onAuthStateChange(async (event,session)=>{
+                            if(event === "SIGNED_OUT" || !session){
+                                navigate("/login");
+                            }
+                        })
+    },[navigate]);
+
+    if(isLoading || !data || isLoadingSession){
         return(
             <Loader></Loader>
         )
