@@ -1,5 +1,5 @@
 import { BsTwitterX } from "react-icons/bs"
-import { FaFacebook } from "react-icons/fa6"
+import { FaBoxOpen, FaCartShopping, FaFacebook } from "react-icons/fa6"
 import { GrInstagram } from "react-icons/gr"
 
 export const navBarLinks =[
@@ -39,4 +39,20 @@ export const socialLinks =[
         href:"https://www.instagram.com",
         icon:<GrInstagram />
     }   
+]
+
+
+export const dashboardLinks =[
+    {
+        id:1,
+        title:"Productos",
+        href:"/dashboard/productos",
+        icon:<FaBoxOpen size={25}></FaBoxOpen>
+    },
+    {
+        id:2,
+        title:"Ordenes",
+        href:"/dashboard/ordenes",
+        icon:<FaCartShopping></FaCartShopping>
+    }
 ]

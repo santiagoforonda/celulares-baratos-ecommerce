@@ -61,6 +61,16 @@ export const formatDateLong =(date:string):string=>{
 	return dateObject.toLocaleString("es-Es",{year:"numeric",month:"long",day:"numeric"})
 }
 
+//Funcion para formatear la fecha en 2/10/29
+export const formatDate =(date:string):string =>{
+	const dateObject = new Date(date);
+	return dateObject.toLocaleDateString("es-Es",{
+		year:"numeric",
+		month:"2-digit",
+		day:"numeric",
+	})
+}
+
 //Funcion para obtener el estado del pedido en español
 export const getStatus =(status:string):string=>{
 	switch(status){

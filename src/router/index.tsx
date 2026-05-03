@@ -11,6 +11,8 @@ import { OrdersUserPage } from "../pages/OrdersUserPage";
 import { CheckoutPage } from "../pages/CheckoutPage";
 import { ThnakyouPage } from "../pages/ThnakyouPage";
 import { OrderUserPage } from "../pages/OrderUserPage";
+import { DashboardLayout } from "../layout/DashboardLayout";
+import { DashboardProductsPage } from "../pages/dashboard/DashboardProductsPage";
 
 export const router = createBrowserRouter([
     {
@@ -70,5 +72,19 @@ export const router = createBrowserRouter([
     {
         path:"/checkout/:id/thank-you",
         element:<ThnakyouPage></ThnakyouPage>
+    },
+    {
+        path:"/dashboard",
+        element:<DashboardLayout></DashboardLayout>,
+        children:[
+            {
+                index:true,
+                element:<Navigate to="/dashboard/productos"></Navigate>
+            },
+            {
+                path:"productos",
+                element:<DashboardProductsPage></DashboardProductsPage>
+            },
+        ]
     }
 ])
