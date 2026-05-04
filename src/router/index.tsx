@@ -13,6 +13,7 @@ import { ThnakyouPage } from "../pages/ThnakyouPage";
 import { OrderUserPage } from "../pages/OrderUserPage";
 import { DashboardLayout } from "../layout/DashboardLayout";
 import { DashboardProductsPage } from "../pages/dashboard/DashboardProductsPage";
+import { NewProductPage } from "../pages/dashboard/NewProductPage";
 
 export const router = createBrowserRouter([
     {
@@ -85,6 +86,10 @@ export const router = createBrowserRouter([
                 path:"productos",
                 element:<DashboardProductsPage></DashboardProductsPage>
             },
+            {
+                path:"productos/new",
+                element:<NewProductPage></NewProductPage>
+            }
         ]
     }
 ])
