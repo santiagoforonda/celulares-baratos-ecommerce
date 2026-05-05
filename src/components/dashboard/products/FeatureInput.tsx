@@ -60,7 +60,7 @@ export const FeatureInput = ({ control, errors }: Props) => {
             <input
                 type="text"
                 placeholder="256GB de alamcenamiento"
-                className={`border-gray-300 py-1.5 text-sm rounded-md px-3 font-medium tracking-tighter text-slate-700 outline-none
+                className={`border border-gray-300 py-1.5 text-sm rounded-md px-3 font-medium tracking-tighter text-slate-700 outline-none
                 focus:outline-none ${errors.features ? "border-red-500" : ""}`}
                 autoComplete="off"
                 value={newFeatures}

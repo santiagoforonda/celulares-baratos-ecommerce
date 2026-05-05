@@ -7,6 +7,7 @@ import { Loader } from "../../shared/Loader";
 import { formatDate,  formatPrice } from "../../../helpers";
 import { Pagination } from "../../shared/Pagination";
 import { CellTableProducts } from "./CellTableProducts";
+import { useDeleteProduct } from "../../../hooks/products/useDeleteProduct";
 
 
 const tableHeaders=[
@@ -21,8 +22,11 @@ export const TableProducts = () => {
 
     const {products,isLoading,totalProducts} = useProducts({page});
 
+    const {mutate,isPending} = useDeleteProduct();
+
     const handleDeleteProduct =async(id:string)=>{
-        console.log(id);
+        mutate(id);
+        setOpenMenuIndex(null);
     }
 
     const handleMenuToggle = (index:number)=>{
@@ -37,7 +41,10 @@ export const TableProducts = () => {
         setSelectedVariants({...selectedVariants,[productId]:variantIndex})
     }
 
-    if(!products || isLoading || !totalProducts){
+   
+
+
+    if(!products || isLoading || !totalProducts || isPending){
         return(
             <Loader></Loader>
         )
@@ -67,7 +74,7 @@ export const TableProducts = () => {
                         products?.map((product,index)=>{
 
                             const selectedVariantIndex =  selectedVariants[product.id] ?? 0;
-                            const selectedVariant =  product.variants[selectedVariantIndex];
+                            const selectedVariant =  product.variants[selectedVariantIndex] || {};
 
                         return(
                         <tr key={index}>
@@ -91,9 +98,9 @@ export const TableProducts = () => {
                             
                         </td>
 
-                        <CellTableProducts content={formatPrice(selectedVariant.price)}></CellTableProducts>
+                        <CellTableProducts content={formatPrice(selectedVariant?.price)}></CellTableProducts>
 
-                        <CellTableProducts content={selectedVariant.stock.toString()}></CellTableProducts>
+                        <CellTableProducts content={(selectedVariant.stock || 0).toString()}></CellTableProducts>
 
                         <CellTableProducts content={formatDate(product.created_at)}></CellTableProducts>
 

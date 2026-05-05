@@ -88,3 +88,14 @@ export const getStatus =(status:string):string=>{
 export const generateSlug = (name:string):string=>{
 	return name.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
 }
+
+//Funcion para extraer el path relativo de una URL
+export const extracFile =(url:string)=>{
+	const parts = url.split("/storage/v1/object/public/product-images/");
+
+	if(parts.length!==2){
+		throw new Error(`URL de imagen no valida: ${url}`);
+	}
+
+	return parts[1];
+}

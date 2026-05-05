@@ -82,18 +82,19 @@ export const VariantsInput = ({control,errors,register}:Props) => {
                 fields.map((field,index)=>(
                     <div key={field.id}>
                         <div className="grid grid-cols-5 gap-4 items-center">
+
                             <input type="number" placeholder="stock" {...register(`variants.${index}.stock`,{
                                 valueAsNumber:true
                             })}
                             className="border rounded-md px-3 py-1.5 text-xs font-semibold placeholder:font-normal focus:outline-none appearance-none"></input>
 
-                            <input type="number" step="1" placeholder="precio" {...register(`variants.${index}.price`,{
-                                valueAsNumber:true
-                            })}
+                            <input type="text"  placeholder="64GB" {...register(`variants.${index}.storage`)}
                             className="border rounded-md px-3 py-1.5 text-xs font-semibold placeholder:font-normal focus:outline-none appearance-none"></input>
 
 
-                            <input type="text" placeholder="64 GB" {...register(`variants.${index}.storage`)}
+                            <input type="number" placeholder="$20000" {...register(`variants.${index}.price`,{
+                                valueAsNumber:true
+                            })}
                             className="border rounded-md px-3 py-1.5 text-xs font-semibold placeholder:font-normal focus:outline-none appearance-none"></input>
 
                             
@@ -137,7 +138,7 @@ export const VariantsInput = ({control,errors,register}:Props) => {
                 ))
             }
         </div>
-        <button type="button" onClick={addVariant} className="px-4 py-2 text-slate-800 rounded-md text-sm font-semibold tracking-tight flex items-center gap-1 self-center hover:bg-slate-100" >
+        <button type="button" onClick={addVariant} className="cursor-pointer px-4 py-2 text-slate-800 rounded-md text-sm font-semibold tracking-tight flex items-center gap-1 self-center hover:bg-slate-100" >
             <IoIosAddCircleOutline size={16}></IoIosAddCircleOutline>
             Añadir variante</button>
             {

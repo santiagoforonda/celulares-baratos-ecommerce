@@ -1,6 +1,6 @@
 import type { FieldErrors, UseFormSetValue, UseFormWatch } from "react-hook-form"
 import type { ProductsFormValues } from "../../../lib/validators";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
 interface Props{
@@ -20,6 +20,19 @@ export const UploaderImage = ({erros,setValue,watch}:Props) => {
     const [images,setImages] = useState<ImagePreviw[]>([]);
 
     const formImages = watch("images");
+
+    useEffect(()=>{
+        if(formImages && formImages.length>0 && images.length==0){
+            const existingImages = formImages.map(url=>(
+                {
+                    previewUrl:url
+                }
+            ))
+            setImages(existingImages);
+
+            setValue("images",formImages);
+        }
+    },[formImages,images.length,setValue]);
 
     const handleImageChange =(e:React.ChangeEvent<HTMLInputElement>)=>{
         if(e.target.files){

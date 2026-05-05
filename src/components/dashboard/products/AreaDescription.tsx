@@ -2,7 +2,7 @@ import { EditorContent, useEditor, type JSONContent } from "@tiptap/react"
 import type {  FieldErrors, UseFormSetValue } from "react-hook-form"
 import type { ProductsFormValues } from "../../../lib/validators"
 import StarterKit from "@tiptap/starter-kit";
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 
 interface Props{
     setValue: UseFormSetValue<ProductsFormValues>;
@@ -27,6 +27,13 @@ export const AreaDescription = ({setValue,initialContent,errors}:Props) => {
             }
         }
     })
+
+    useEffect(()=>{
+        if(initialContent && editor){
+            editor.commands.setContent(initialContent);
+        }
+    },[initialContent,editor]);
+
     return (
     <div className="space-y-3">
         <EditorContent editor={editor}></EditorContent>
