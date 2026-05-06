@@ -11,7 +11,7 @@ export const useUser =()=>{
     });
 
     return {
-        session:data?.session,
+        session:data,
         isLoading
     }
 }

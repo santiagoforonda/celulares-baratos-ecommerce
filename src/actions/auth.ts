@@ -104,7 +104,7 @@ export const getSession = async() =>{
         throw new Error("Error al obtener la sesion");
     }
 
-    return data;
+    return data.session;
 }
 
 export const getUserDate =async(userId:string)=>{
@@ -117,4 +117,15 @@ export const getUserDate =async(userId:string)=>{
 
     return data;
     
+}
+
+
+export const getUserRoler = async(userId:string)=>{
+    const {data,error} =await supabase.from("user_roles").select("role").eq("user_id",userId).single();
+
+    if(error){
+        throw new Error(error.message);
+    }
+
+    return data.role;
 }
