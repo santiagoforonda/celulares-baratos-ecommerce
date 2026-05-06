@@ -239,7 +239,7 @@ export const updateProduct =async(productId:string,productInput:ProductInput)=>{
     //3 manejo de imagenes
     const folderName = productId;
 
-    const validImages = productInput.images.filter(image=> image);
+    const validImages = productInput.images.filter(image=> image) as [File | string];
 
     const imageToDelete = existingImage.filter(
         image => !validImages.includes(image)
