@@ -98,7 +98,7 @@ export const TableProducts = () => {
                             
                         </td>
 
-                        <CellTableProducts content={formatPrice(selectedVariant?.price)}></CellTableProducts>
+                        <CellTableProducts content={formatPrice(selectedVariant.price)}></CellTableProducts>
 
                         <CellTableProducts content={(selectedVariant.stock || 0).toString()}></CellTableProducts>
 
