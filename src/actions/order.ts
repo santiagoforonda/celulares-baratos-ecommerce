@@ -190,3 +190,67 @@ export const getOrderById = async(orderId:number)=>{
         }))
     }
 }
+
+/*Administrador */
+
+export const getAllOrders =async()=>{
+    const{data,error} = await supabase.from("orders").select("id,total_amount,status,created_at,customers(fullName,email)").order("created_at",{ascending:false})
+
+    if(error){
+        throw new Error(error.message);
+    }
+
+    return data;
+}
+
+
+export const updateOrderStatus = async({id,status}:{id:number,status:string})=>{
+    const {error} = await supabase.from("orders").update({status}).eq("id",id);
+
+    if(error){
+        throw new Error(error.message);
+    }
+
+
+}
+
+export const getOrderByIdAdmin = async(id:number)=>{
+
+    const {data:order,error:orderError} = await supabase
+    .from("orders")
+    .select("*,addresses(*), customers(fullName,email),orders_item(quantity,price,variants(color_name,storage,products(name,images)))")
+    .eq("id",id)
+    .single();
+
+    if(orderError){
+        console.log(orderError);
+        throw new Error(orderError.message);
+    }
+
+    return {
+        customer:{
+            email:order.customers.email,
+            fullName: order.customers.fullName,
+        },
+        total_amount:order.total_amount,
+        status: order.status,
+        created_at:order.created_at,
+        address:{
+            addressLine1: order.addresses.address_line1,
+            addressLine2: order.addresses.address_line2,
+            city:order.addresses.city,
+            state: order.addresses.state,
+            postalCode: order.addresses.postal_code,
+            country:order.addresses.country,
+        },
+        orderItems: order.orders_item.map(item =>({
+            quantity:item.quantity,
+            price:item.price,
+            color_name:item.variants?.color_name,
+            storage:item.variants?.storage,
+            productName:item.variants?.products.name,
+            productImage:item.variants?.products.images[0],
+
+        }))
+    }
+}

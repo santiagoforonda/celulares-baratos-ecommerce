@@ -67,3 +67,15 @@ export interface VariantInput{
     storage:string;
     color_name:string;
 }
+
+
+export interface OrderWithCustomer{
+    id:number;
+    status:string;
+    total_amount:number;
+    created_at:string;
+    customers:{
+        fullName:string;
+        email:string;
+    } | null;
+}

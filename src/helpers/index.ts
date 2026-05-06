@@ -3,7 +3,12 @@
 
 import type { Color, Product, Variant } from "../interfaces/product.interface";
 
-export const formatPrice =(price:number)=>{
+export const formatPrice =(price:number | undefined)=>{
+
+	if(!price){
+		return 0;
+	}
+
     return new Intl.NumberFormat("en-US",{
         style:"currency",
         currency:"USD",
